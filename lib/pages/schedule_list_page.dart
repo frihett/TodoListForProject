@@ -12,12 +12,15 @@ class ScheduleListPage extends StatelessWidget {
     final ScheduleController controller = Get.find<ScheduleController>();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Schedule'),
+        backgroundColor:  Colors.white,
       ),
       body: SingleChildScrollView(
         child: Obx(() {
           return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Padding(
@@ -27,6 +30,7 @@ class ScheduleListPage extends StatelessWidget {
                     schedule: controller.schedules
                         .where((s) => s.status == ScheduleStatus.todo)
                         .toList(),
+                    color: Colors.blue.withOpacity(0.05),
                   ),
                 ),
               ),
@@ -38,6 +42,7 @@ class ScheduleListPage extends StatelessWidget {
                     schedule: controller.schedules
                         .where((s) => s.status == ScheduleStatus.urgent)
                         .toList(),
+                    color: Colors.red.withOpacity(0.05),
                   ),
                 ),
               ),
@@ -49,6 +54,7 @@ class ScheduleListPage extends StatelessWidget {
                     schedule: controller.schedules
                         .where((s) => s.status == ScheduleStatus.inProgress)
                         .toList(),
+                    color: Colors.orange.withOpacity(0.05),
                   ),
                 ),
               ),
@@ -60,6 +66,7 @@ class ScheduleListPage extends StatelessWidget {
                     schedule: controller.schedules
                         .where((s) => s.status == ScheduleStatus.completed)
                         .toList(),
+                    color: Colors.green.withOpacity(0.05),
                   ),
                 ),
               ),

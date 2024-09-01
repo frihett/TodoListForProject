@@ -5,14 +5,18 @@ import 'package:todo_list_for_project_1/widgets/schedule_item.dart';
 class ScheduleSection extends StatelessWidget {
   final String title;
   final List<Schedule> schedule;
+  final Color color;
 
   const ScheduleSection(
-      {super.key, required this.title, required this.schedule});
+      {super.key, required this.title, required this.schedule, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.grey),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -11,12 +11,33 @@ class ScheduleListPage extends StatelessWidget {
         title: Text('Schedule'),
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child: Row(
           children: [
-            ScheduleSection(),
-            ScheduleSection(),
-            ScheduleSection(),
-            ScheduleSection()
+
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ScheduleSection(),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ScheduleSection(),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ScheduleSection(),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ScheduleSection(),
+              ),
+            )
           ],
         ),
       ),

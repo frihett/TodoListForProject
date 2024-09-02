@@ -6,7 +6,7 @@ class Schedule {
   final Employee responsiblePerson; // 담당자
   final String subTitle;
   final String description;
-  final DateTime date;
+  final DateTime dueDate;
   final ScheduleStatus status;
   final String taskId;
 
@@ -14,7 +14,7 @@ class Schedule {
       {required this.title,
       required this.responsiblePerson,
       required this.subTitle,
-      required this.date,
+      required this.dueDate,
       required this.status,
       required this.taskId,
       required this.description });
@@ -27,7 +27,7 @@ class Schedule {
           title == other.title &&
           responsiblePerson == other.responsiblePerson &&
           subTitle == other.subTitle &&
-          date == other.date &&
+          dueDate == other.dueDate &&
           status == other.status &&
           taskId == other.taskId &&
           description == other.description;
@@ -37,14 +37,14 @@ class Schedule {
       title.hashCode ^
       responsiblePerson.hashCode ^
       subTitle.hashCode ^
-      date.hashCode ^
+      dueDate.hashCode ^
       status.hashCode ^
       taskId.hashCode ^
       description.hashCode;
 
   @override
   String toString() {
-    return 'Schedule{title: $title, responsiblePerson: $responsiblePerson, detail: $subTitle, date: $date, status: $status, taskId: $taskId, description: $description}';
+    return 'Schedule{title: $title, responsiblePerson: $responsiblePerson, detail: $subTitle, date: $dueDate, status: $status, taskId: $taskId, description: $description}';
   }
 
   Schedule copyWith({
@@ -60,7 +60,7 @@ class Schedule {
       title: title ?? this.title,
       responsiblePerson: responsiblePerson ?? this.responsiblePerson,
       subTitle: detail ?? this.subTitle,
-      date: date ?? this.date,
+      dueDate: date ?? this.dueDate,
       status: status ?? this.status,
       taskId: taskId ?? this.taskId,
         description: description ?? this.description,

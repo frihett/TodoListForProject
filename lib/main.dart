@@ -17,7 +17,11 @@ class MyApp extends StatelessWidget {
       title: 'Scheduler App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+        ),
       ),
       home: ScheduleListPage(), //
     );

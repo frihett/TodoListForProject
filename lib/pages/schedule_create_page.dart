@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_for_project_1/controllers/schedule_controller.dart';
-import 'package:todo_list_for_project_1/models/schedule.dart';
 import 'package:todo_list_for_project_1/models/employee.dart';
+import 'package:todo_list_for_project_1/models/position.dart';
+import 'package:todo_list_for_project_1/models/schedule.dart';
 
 class ScheduleCreatePage extends StatefulWidget {
   const ScheduleCreatePage({super.key});
@@ -13,6 +14,28 @@ class ScheduleCreatePage extends StatefulWidget {
 
 class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
   final ScheduleController controller = Get.find<ScheduleController>();
+  Employee? _selectedEmployee;
+
+  final List<Employee> _employees = [
+    Employee(
+        id: '1',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        profileUrl: '',
+        position: Position.developer),
+    Employee(
+        id: '2',
+        name: 'Jane Smith',
+        email: 'jane.smith@example.com',
+        profileUrl: '',
+        position: Position.manager),
+  ];
+
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController subtitleController = TextEditingController();
+  final TextEditingController deadlineController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +44,18 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
         title: const Text('Create Schedule'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(60.0),
+        padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('추가하기'),
+            ),
+            const SizedBox(height: 16.0),
             Container(
               child: TextField(
+                controller: titleController,
                 decoration: const InputDecoration(
                     hintText: '제목',
                     hintStyle: TextStyle(
@@ -51,6 +80,7 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
                     )),
                 Expanded(
                   child: TextField(
+                    controller: subtitleController,
                     decoration: const InputDecoration(
                       hintText: '비어 있음',
                       hintStyle: TextStyle(
@@ -74,22 +104,20 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
                       ],
                     )),
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: '비어 있음',
-                      hintStyle: TextStyle(
-                        color: Color(0xFFBDBDBD), // 연한 회색
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.arrow_drop_down),
-                        onPressed: () {
-                          // 직원 선택 기능을 나중에 추가할 수 있습니다.
-                        },
-                      ),
-                    ),
-                    readOnly: true,
-                  ),
-                ),
+                    child: DropdownButton<Employee>(
+                        isExpanded: true, // 전체 너비 사용
+                        value: _selectedEmployee,
+                        items: _employees.map((Employee employee) {
+                          return DropdownMenuItem<Employee>(
+                            value: employee,
+                            child: Text(employee.name),
+                          );
+                        }).toList(),
+                        onChanged: (Employee? newValue) {
+                          setState(() {
+                            _selectedEmployee = newValue;
+                          });
+                        })),
               ],
             ),
             const SizedBox(height: 16.0),
@@ -106,6 +134,7 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
                     )),
                 Expanded(
                   child: TextField(
+                    controller: deadlineController,
                     decoration: InputDecoration(
                       hintText: '비어 있음',
                       hintStyle: TextStyle(
@@ -120,6 +149,8 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
             const SizedBox(height: 16.0),
             Expanded(
               child: TextField(
+                controller: descriptionController,
+
                 decoration: const InputDecoration(
                   hintText: '비어 있음',
                   hintStyle: TextStyle(

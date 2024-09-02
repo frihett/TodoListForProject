@@ -15,27 +15,44 @@ class ScheduleCreatePage extends StatefulWidget {
 class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
   final ScheduleController controller = Get.find<ScheduleController>();
   Employee? _selectedEmployee;
+  DateTime? _selectedDate;
 
   final List<Employee> _employees = [
     Employee(
-        id: '1',
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        profileUrl: '',
-        position: Position.developer),
+      id: '1',
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      profileUrl: '',
+      position: Position.developer,
+    ),
     Employee(
-        id: '2',
-        name: 'Jane Smith',
-        email: 'jane.smith@example.com',
-        profileUrl: '',
-        position: Position.manager),
+      id: '2',
+      name: 'Jane Smith',
+      email: 'jane.smith@example.com',
+      profileUrl: '',
+      position: Position.manager,
+    ),
   ];
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController subtitleController = TextEditingController();
-  final TextEditingController deadlineController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
+  Future<void> _selectDate() async {
+    DateTime currentDate = DateTime.now();
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime(currentDate.year - 10),
+      lastDate: DateTime(currentDate.year + 10),
+    );
+
+    if (selectedDate != null && selectedDate != _selectedDate) {
+      setState(() {
+        _selectedDate = selectedDate;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +74,12 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
               child: TextField(
                 controller: titleController,
                 decoration: const InputDecoration(
-                    hintText: '제목',
-                    hintStyle: TextStyle(
-                      color: Color(0xFFBDBDBD), // 연한 회색
-                    ),
-                    border: InputBorder.none),
+                  hintText: '제목',
+                  hintStyle: TextStyle(
+                    color: Color(0xFFBDBDBD), // 연한 회색
+                  ),
+                  border: InputBorder.none,
+                ),
                 style: TextStyle(fontSize: 24.0),
                 maxLines: 1,
               ),
@@ -70,14 +88,15 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
             Row(
               children: [
                 Container(
-                    width: 100,
-                    child: Row(
-                      children: [
-                        Icon(Icons.subtitles, color: Color(0xFF757575)),
-                        SizedBox(width: 4),
-                        Text('부제목', style: TextStyle(color: Color(0xFF757575))),
-                      ],
-                    )),
+                  width: 100,
+                  child: Row(
+                    children: [
+                      Icon(Icons.subtitles, color: Color(0xFF757575)),
+                      SizedBox(width: 4),
+                      Text('부제목', style: TextStyle(color: Color(0xFF757575))),
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: TextField(
                     controller: subtitleController,
@@ -95,53 +114,60 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
             Row(
               children: [
                 Container(
-                    width: 100,
-                    child: Row(
-                      children: [
-                        Icon(Icons.person, color: Color(0xFF757575)),
-                        SizedBox(width: 4),
-                        Text('담당자', style: TextStyle(color: Color(0xFF757575))),
-                      ],
-                    )),
+                  width: 100,
+                  child: Row(
+                    children: [
+                      Icon(Icons.person, color: Color(0xFF757575)),
+                      SizedBox(width: 4),
+                      Text('담당자', style: TextStyle(color: Color(0xFF757575))),
+                    ],
+                  ),
+                ),
                 Expanded(
-                    child: DropdownButton<Employee>(
-                        isExpanded: true, // 전체 너비 사용
-                        value: _selectedEmployee,
-                        items: _employees.map((Employee employee) {
-                          return DropdownMenuItem<Employee>(
-                            value: employee,
-                            child: Text(employee.name),
-                          );
-                        }).toList(),
-                        onChanged: (Employee? newValue) {
-                          setState(() {
-                            _selectedEmployee = newValue;
-                          });
-                        })),
+                  child: DropdownButton<Employee>(
+                    isExpanded: true, // 전체 너비 사용
+                    value: _selectedEmployee,
+                    hint: Text('Select Employee'),
+                    items: _employees.map((Employee employee) {
+                      return DropdownMenuItem<Employee>(
+                        value: employee,
+                        child: Text(employee.name),
+                      );
+                    }).toList(),
+                    onChanged: (Employee? newValue) {
+                      setState(() {
+                        _selectedEmployee = newValue;
+                      });
+                    },
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 16.0),
             Row(
               children: [
                 Container(
-                    width: 100,
-                    child: Row(
-                      children: [
-                        Icon(Icons.calendar_today, color: Color(0xFF757575)),
-                        SizedBox(width: 4),
-                        Text('마감일', style: TextStyle(color: Color(0xFF757575))),
-                      ],
-                    )),
+                  width: 100,
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_today, color: Color(0xFF757575)),
+                      SizedBox(width: 4),
+                      Text('마감일', style: TextStyle(color: Color(0xFF757575))),
+                    ],
+                  ),
+                ),
                 Expanded(
-                  child: TextField(
-                    controller: deadlineController,
-                    decoration: InputDecoration(
-                      hintText: '비어 있음',
-                      hintStyle: TextStyle(
-                        color: Color(0xFFBDBDBD), // 연한 회색
+                  child: GestureDetector(
+                    onTap: _selectDate,
+                    child: Text(
+                      _selectedDate != null
+                          ? "${_selectedDate!.toLocal()}".split(' ')[0] // YYYY-MM-DD 형식으로 표시
+                          : '비어 있음',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Color(0xFF757575),
                       ),
                     ),
-                    readOnly: true,
                   ),
                 ),
               ],
@@ -150,7 +176,6 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
             Expanded(
               child: TextField(
                 controller: descriptionController,
-
                 decoration: const InputDecoration(
                   hintText: '비어 있음',
                   hintStyle: TextStyle(

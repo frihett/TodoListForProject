@@ -17,6 +17,7 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
   final ScheduleController controller = Get.find<ScheduleController>();
   Employee? _selectedEmployee;
   DateTime? _selectedDate;
+  ScheduleStatus _selectedStatus = ScheduleStatus.todo;
 
   final List<Employee> _employees = [
     Employee(
@@ -63,7 +64,9 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
       subTitle: subtitleController.text,
       responsiblePerson: _selectedEmployee,
       dueDate: _selectedDate,
-      description: descriptionController.text, status: ScheduleStatus.todo,  taskId: taskIdController.text,
+      description: descriptionController.text,
+      status: _selectedStatus,
+      taskId: taskIdController.text,
     );
 
     // 생성된 Schedule 객체를 ScheduleController에 전달
@@ -153,6 +156,41 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
                         color: Color(0xFFBDBDBD), // 연한 회색
                       ),
                     ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              children: [
+                Container(
+                  width: 100,
+                  child: Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Color(0xFF757575)),
+                      SizedBox(width: 4),
+                      Text('상태', style: TextStyle(color: Color(0xFF757575))),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: DropdownButton<ScheduleStatus>(
+                    isExpanded: true,
+                    value: _selectedStatus,
+                    items: ScheduleStatus.values.map((ScheduleStatus status) {
+                      return DropdownMenuItem<ScheduleStatus>(
+                        value: status,
+                        child: Text(status
+                            .toString()
+                            .split('.')
+                            .last), // ScheduleStatus 이름만 표시
+                      );
+                    }).toList(),
+                    onChanged: (ScheduleStatus? newStatus) {
+                      setState(() {
+                        _selectedStatus = newStatus!;
+                      });
+                    },
                   ),
                 ),
               ],

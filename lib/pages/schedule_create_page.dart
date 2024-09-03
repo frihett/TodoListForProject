@@ -4,6 +4,7 @@ import 'package:todo_list_for_project_1/controllers/schedule_controller.dart';
 import 'package:todo_list_for_project_1/models/employee.dart';
 import 'package:todo_list_for_project_1/models/position.dart';
 import 'package:todo_list_for_project_1/models/schedule.dart';
+import 'package:todo_list_for_project_1/models/schedule_status.dart';
 
 class ScheduleCreatePage extends StatefulWidget {
   const ScheduleCreatePage({super.key});
@@ -37,6 +38,7 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController subtitleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController taskIdController = TextEditingController();
 
   Future<void> _selectDate() async {
     DateTime currentDate = DateTime.now();
@@ -54,6 +56,23 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
     }
   }
 
+  void _createSchedule() {
+    // 입력값을 통해 Schedule 객체 생성
+    Schedule newSchedule = Schedule(
+      title: titleController.text,
+      subTitle: subtitleController.text,
+      responsiblePerson: _selectedEmployee,
+      dueDate: _selectedDate,
+      description: descriptionController.text, status: ScheduleStatus.todo,  taskId: taskIdController.text,
+    );
+
+    // 생성된 Schedule 객체를 ScheduleController에 전달
+    controller.addSchedule(newSchedule);
+
+    // 데이터 저장 후 페이지 이동
+    Get.back(); // 페이지를 뒤로 이동
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +85,9 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _createSchedule();
+              },
               child: const Text('추가하기'),
             ),
             const SizedBox(height: 16.0),
@@ -117,6 +138,32 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
                   width: 100,
                   child: Row(
                     children: [
+                      Icon(Icons.subtitles, color: Color(0xFF757575)),
+                      SizedBox(width: 4),
+                      Text('업무 코드', style: TextStyle(color: Color(0xFF757575))),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: taskIdController,
+                    decoration: const InputDecoration(
+                      hintText: '비어 있음',
+                      hintStyle: TextStyle(
+                        color: Color(0xFFBDBDBD), // 연한 회색
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              children: [
+                Container(
+                  width: 100,
+                  child: Row(
+                    children: [
                       Icon(Icons.person, color: Color(0xFF757575)),
                       SizedBox(width: 4),
                       Text('담당자', style: TextStyle(color: Color(0xFF757575))),
@@ -125,7 +172,8 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
                 ),
                 Expanded(
                   child: DropdownButton<Employee>(
-                    isExpanded: true, // 전체 너비 사용
+                    isExpanded: true,
+                    // 전체 너비 사용
                     value: _selectedEmployee,
                     hint: Text('Select Employee'),
                     items: _employees.map((Employee employee) {
@@ -161,7 +209,8 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
                     onTap: _selectDate,
                     child: Text(
                       _selectedDate != null
-                          ? "${_selectedDate!.toLocal()}".split(' ')[0] // YYYY-MM-DD 형식으로 표시
+                          ? "${_selectedDate!.toLocal()}"
+                              .split(' ')[0] // YYYY-MM-DD 형식으로 표시
                           : '비어 있음',
                       style: TextStyle(
                         fontSize: 16.0,

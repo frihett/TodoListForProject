@@ -20,7 +20,7 @@ class _ScheduleItemState extends State<ScheduleItem> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-// 위젯이 빌드된 후 크기를 측정합니다.
+    // 위젯이 빌드된 후 크기를 측정합니다.
       final RenderBox? renderBox =
           _key.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox != null) {
@@ -36,69 +36,65 @@ class _ScheduleItemState extends State<ScheduleItem> {
     return LongPressDraggable<Schedule>(
       data: widget.schedule,
       feedback: Material(
-        color: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Container(
-              width: _widgetSize.width,
-              height: _widgetSize.height,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(
-                  color: Colors.grey[300]!,
-                  width: 1.5,
-                ),
+        child: Container(
+            width: _widgetSize.width,
+            height: _widgetSize.height,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(
+                color: Colors.grey[300]!,
+                width: 1.5,
               ),
-              child: Column(
-                children: [
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                      Text(widget.schedule.title),
+                      Spacer(),
+                      Icon(Icons.add),
+                    ],
+                  ),
+                ),
+                if (widget.schedule.subTitle != '')
                   Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                     child: Row(
                       children: [
-                        Text(widget.schedule.title),
-                        Spacer(),
-                        Icon(Icons.add),
-                      ],
-                    ),
-                  ),
-                  if (widget.schedule.subTitle != '')
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4.0, horizontal: 8.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.purple[100],
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                            padding: EdgeInsets.all(4.0),
-                            child: Text(
-                              widget.schedule.subTitle!,
-                              style: TextStyle(
-                                color: Colors.purple[800],
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.purple[100],
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          padding: EdgeInsets.all(4.0),
+                          child: Text(
+                            widget.schedule.subTitle!,
+                            style: TextStyle(
+                              color: Colors.purple[800],
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Row(
-                      children: [
-                        Text(widget.schedule.taskId),
-                        Spacer(),
-                        Icon(Icons.circle),
+                        ),
                       ],
                     ),
                   ),
-                ],
-              )),
-        ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                      Text(widget.schedule.taskId),
+                      Spacer(),
+                      Icon(Icons.circle),
+                    ],
+                  ),
+                ),
+              ],
+            )),
       ),
       child: GestureDetector(
         onTap: () {

@@ -13,10 +13,8 @@ class ScheduleListPage extends StatelessWidget {
     final ScheduleController controller = Get.find<ScheduleController>();
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Schedule'),
-        backgroundColor: Colors.white,
       ),
       body: Column(
         children: [
@@ -26,7 +24,12 @@ class ScheduleListPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Get.to(() => ScheduleCreatePage());
+                    Get.dialog(Dialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0)),
+                      child: Container(
+                          width: 800, height: 800, child: ScheduleCreatePage()),
+                    ));
                   },
                   child: const Text('일정 생성하기'),
                 ),
@@ -41,7 +44,7 @@ class ScheduleListPage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: ScheduleSection(
                           title: '할 일',
                           schedule: controller.schedules
@@ -53,7 +56,7 @@ class ScheduleListPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: ScheduleSection(
                           title: '급한 일',
                           schedule: controller.schedules
@@ -65,7 +68,7 @@ class ScheduleListPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: ScheduleSection(
                           title: '진행 중',
                           schedule: controller.schedules
@@ -78,7 +81,7 @@ class ScheduleListPage extends StatelessWidget {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: ScheduleSection(
                           title: '완료',
                           schedule: controller.schedules

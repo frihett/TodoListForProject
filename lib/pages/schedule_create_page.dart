@@ -42,7 +42,7 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
   final TextEditingController taskIdController = TextEditingController();
 
   Future<void> _selectDate() async {
-    DateTime currentDate = DateTime.now();
+    final DateTime currentDate = DateTime.now();
     DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: currentDate,
@@ -66,11 +66,11 @@ class _ScheduleCreatePageState extends State<ScheduleCreatePage> {
       dueDate: _selectedDate,
       description: descriptionController.text,
       status: _selectedStatus,
-      taskId: taskIdController.text,
+      taskId: taskIdController.text, createAt: DateTime.now(),
     );
 
     // 생성된 Schedule 객체를 ScheduleController에 전달
-    controller.addSchedule(newSchedule);
+    controller.addSchedule(schedule: newSchedule);
 
     // 데이터 저장 후 페이지 이동
     Get.back(); // 페이지를 뒤로 이동

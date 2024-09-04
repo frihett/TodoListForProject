@@ -24,7 +24,7 @@ class ScheduleController extends GetxController {
       schedules[index] = newSchedule;
     }
   }
-  // 해당 섹션의 스케줄을 전체 리스트에서 지우고 다시 생성.
+  // 해당 섹션의 스케줄을 전체 리스트에서 지우고 다시 생성
   void updateSchedulesInSection({
     required String title,
     required List<Schedule> updatedSchedules,

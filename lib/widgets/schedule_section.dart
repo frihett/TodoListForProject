@@ -21,7 +21,6 @@ class ScheduleSection extends StatelessWidget {
 
   // 드래그가 떨어진 위치에 해당하는 인덱스를 반환하는 함수
   int _getTargetIndex(double offsetY) {
-
     final itemHeight = 100.0; // 각 아이템의 예상 높이
     if (schedule.isEmpty) {
       return 0; // 기본 인덱스 반환
@@ -35,7 +34,6 @@ class ScheduleSection extends StatelessWidget {
     return DragTarget<Schedule>(
       onAcceptWithDetails: (details) {
         final receivedSchedule = details.data;
-
 
         // 섹션 제목에 맞게 스케줄 상태를 업데이트합니다.
         final updatedSchedule = receivedSchedule.copyWith(
@@ -63,9 +61,9 @@ class ScheduleSection extends StatelessWidget {
           updatedSchedules.removeAt(oldIndex);
           updatedSchedules.insert(newIndex, receivedSchedule);
 
-
           // 컨트롤러에 업데이트된 리스트를 전달
-          controller.updateSchedulesInSection(title: title, updatedSchedules: updatedSchedules);
+          controller.updateSchedulesInSection(
+              title: title, updatedSchedules: updatedSchedules);
         }
       },
       builder: (context, candidateData, rejectedData) {
@@ -73,6 +71,9 @@ class ScheduleSection extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(8.0),
+          ),
+          constraints: BoxConstraints(
+            minHeight: 400.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -47,8 +47,7 @@ class _ScheduleEditPageState extends State<ScheduleEditPage> {
   void initState() {
     super.initState();
     titleController = TextEditingController(text: widget.schedule.title);
-    subTitleController =
-        TextEditingController(text: widget.schedule.subTitle);
+    subTitleController = TextEditingController(text: widget.schedule.subTitle);
     descriptionController =
         TextEditingController(text: widget.schedule.description);
     taskIdController = TextEditingController(text: widget.schedule.taskId);
@@ -90,10 +89,18 @@ class _ScheduleEditPageState extends State<ScheduleEditPage> {
       dueDate: _selectedDate,
       description: descriptionController.text,
       status: selectedStatus,
-      taskId: taskIdController.text, createAt: DateTime.now(),
+      taskId: taskIdController.text,
+      createAt: DateTime.now(),
     );
 
-    controller.updateSchedule(oldSchedule: widget.schedule, newSchedule: updatedSchedule);
+    controller.updateSchedule(
+        oldSchedule: widget.schedule, newSchedule: updatedSchedule);
+    Get.back();
+  }
+
+  void _deleteSchedule() {
+    // Schedule 삭제 로직
+    controller.removeSchedule(schedule: widget.schedule);
     Get.back();
   }
 
@@ -108,10 +115,17 @@ class _ScheduleEditPageState extends State<ScheduleEditPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
-              onPressed: _updateSchedule,
-              child: const Text('수정 하기'),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: _updateSchedule,
+                  child: const Text('수정 하기'),
+                ),
+                SizedBox(width: 16,),
+                ElevatedButton(onPressed: _deleteSchedule, child: const Text('삭제 하기'))
+              ],
             ),
+
             const SizedBox(height: 16.0),
             Container(
               child: TextField(
@@ -264,7 +278,8 @@ class _ScheduleEditPageState extends State<ScheduleEditPage> {
                     onTap: _selectDate,
                     child: Text(
                       _selectedDate != null
-                          ? "${_selectedDate!.toLocal()}".split(' ')[0] // YYYY-MM-DD 형식으로 표시
+                          ? "${_selectedDate!.toLocal()}"
+                              .split(' ')[0] // YYYY-MM-DD 형식으로 표시
                           : '비어 있음',
                       style: TextStyle(
                         fontSize: 16.0,

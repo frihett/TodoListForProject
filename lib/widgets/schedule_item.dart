@@ -20,7 +20,7 @@ class _ScheduleItemState extends State<ScheduleItem> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    // 위젯이 빌드된 후 크기를 측정합니다.
+      // 위젯이 빌드된 후 크기를 측정합니다.
       final RenderBox? renderBox =
           _key.currentContext?.findRenderObject() as RenderBox?;
       if (renderBox != null) {
@@ -89,7 +89,14 @@ class _ScheduleItemState extends State<ScheduleItem> {
                     children: [
                       Text(widget.schedule.taskId),
                       Spacer(),
-                      Icon(Icons.circle),
+                      widget.schedule.responsiblePerson?.profileUrl != null
+                          ? Image.network(
+                        widget.schedule.responsiblePerson!.profileUrl!,
+                        width: 24.0,
+                        height: 24.0,
+                        fit: BoxFit.cover,
+                      )
+                          : Icon(Icons.person),
                     ],
                   ),
                 ),
@@ -163,7 +170,14 @@ class _ScheduleItemState extends State<ScheduleItem> {
                       children: [
                         Text(widget.schedule.taskId),
                         Spacer(),
-                        Icon(Icons.circle),
+                        widget.schedule.responsiblePerson?.profileUrl != null
+                            ? Image.network(
+                          widget.schedule.responsiblePerson!.profileUrl!,
+                          width: 24.0,
+                          height: 24.0,
+                          fit: BoxFit.cover,
+                        )
+                            : Icon(Icons.person),
                       ],
                     ),
                   ),
@@ -224,7 +238,14 @@ class _ScheduleItemState extends State<ScheduleItem> {
                     children: [
                       Text(widget.schedule.taskId),
                       Spacer(),
-                      Icon(Icons.circle),
+                      widget.schedule.responsiblePerson?.profileUrl != null
+                          ? Image.network(
+                        widget.schedule.responsiblePerson!.profileUrl!,
+                        width: 24.0,
+                        height: 24.0,
+                        fit: BoxFit.cover,
+                      )
+                          : Icon(Icons.person),
                     ],
                   ),
                 ),

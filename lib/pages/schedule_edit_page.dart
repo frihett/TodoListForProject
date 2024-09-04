@@ -90,10 +90,10 @@ class _ScheduleEditPageState extends State<ScheduleEditPage> {
       dueDate: _selectedDate,
       description: descriptionController.text,
       status: selectedStatus,
-      taskId: taskIdController.text,
+      taskId: taskIdController.text, createAt: DateTime.now(),
     );
 
-    controller.updateSchedule(widget.schedule, updatedSchedule);
+    controller.updateSchedule(oldSchedule: widget.schedule, newSchedule: updatedSchedule);
     Get.back();
   }
 

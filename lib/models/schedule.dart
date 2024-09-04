@@ -9,6 +9,7 @@ class Schedule {
   final DateTime? dueDate;
   final ScheduleStatus status;
   final String taskId;
+  final DateTime? createAt;
 
   Schedule({
     this.responsiblePerson,
@@ -18,6 +19,7 @@ class Schedule {
     required this.title,
     required this.status,
     required this.taskId,
+    required this.createAt,
   });
 
   @override
@@ -31,7 +33,8 @@ class Schedule {
         other.description == description &&
         other.dueDate == dueDate &&
         other.status == status &&
-        other.taskId == taskId;
+        other.taskId == taskId &&
+        other.createAt == createAt;
   }
 
   @override
@@ -42,11 +45,12 @@ class Schedule {
       dueDate.hashCode ^
       status.hashCode ^
       taskId.hashCode ^
-      description.hashCode;
+      description.hashCode ^
+      createAt.hashCode;
 
   @override
   String toString() {
-    return 'Schedule{title: $title, responsiblePerson: $responsiblePerson, detail: $subTitle, date: $dueDate, status: $status, taskId: $taskId, description: $description}';
+    return 'Schedule{title: $title, responsiblePerson: $responsiblePerson, detail: $subTitle, date: $dueDate, status: $status, taskId: $taskId, description: $description, createAt: $createAt}';
   }
 
   Schedule copyWith({
@@ -57,6 +61,7 @@ class Schedule {
     ScheduleStatus? status,
     String? taskId,
     String? description,
+    DateTime? createAt,
   }) {
     return Schedule(
       title: title ?? this.title,
@@ -66,6 +71,7 @@ class Schedule {
       status: status ?? this.status,
       taskId: taskId ?? this.taskId,
       description: description ?? this.description,
+      createAt: createAt ?? this.createAt,
     );
   }
 }
